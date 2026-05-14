@@ -1,136 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VOID</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dystopian Drop Access</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+@font-face {
+    font-family: "Jane Austin";
+    src: url("JaneAust.ttf") format("truetype");
+}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    overflow: hidden;
+    height: 100vh;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================
+   ENTRY SCREEN
+========================= */
+#entry-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    z-index: 10;
+}
+
+/* EMAIL = Jane Austin */
+input {
+    font-family: "Jane Austin", serif;
+
+    padding: 14px 16px;
+    width: 280px;
+
+    border: 1px solid #222;
+    background: transparent;
+    color: white;
+
+    text-align: center;
+    letter-spacing: 1px;
+    outline: none;
+
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+/* BUTTON = Times New Roman */
+button {
+    font-family: "Times New Roman", Times, serif;
+
+    margin-top: 15px;
+    padding: 12px 26px;
+
+    background: white;
+    color: black;
+
+    border: none;
+    cursor: pointer;
+
+    letter-spacing: 2px;
+    font-size: 16px;
+
+    transition: opacity 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.7;
+}
+
+/* INVALID EMAIL SHAKE */
+.shake {
+    animation: shake 0.25s linear;
+    border-color: #ff3b3b;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    50% { transform: translateX(6px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+}
+
+/* =========================
+   VIDEO SCREEN
+========================= */
+#video-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+
+    opacity: 0;
+    transition: opacity 1.6s ease;
+
+    background: black;
+}
+
+#video-screen.show {
+    opacity: 1;
+}
+
+/* VIDEO */
+video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    background: black;
+
+    transform: translateY(-5%);
+}
+
+/* =========================
+   TEXT AFTER VIDEO
+========================= */
+#overlay-text {
+    position: absolute;
+
+    width: 100%;
+    text-align: center;
+
+    top: 56%;
+    transform: translateY(-50%);
+
+    font-family: "Times New Roman", Times, serif;
+
+    font-size: 18px;
+    letter-spacing: 1px;
+
+    opacity: 0;
+    transition: opacity 1s ease;
+
+    padding: 0 20px;
+
+    white-space: pre-line;
+    line-height: 1.5;
+}
+
+/* ONLY THANK YOU = Jane Austin */
+.thank-you {
+    font-family: "Jane Austin", serif;
+    font-size: 28px;
+}
+
+/* TYPE CURSOR */
+.cursor {
+    display: inline-block;
+    animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<div class="noise"></div>
-<div class="custom-cursor"></div>
+<!-- ENTRY -->
+<div id="entry-screen">
+    <input type="email" id="email" placeholder="Enter your email" />
+    <button onclick="startExperience()">SUBMIT</button>
+</div>
 
-<!-- PRELOADER -->
-<section id="preloader">
-    <h1>VOID</h1>
-    <p>LOADING ARCHIVE</p>
-</section>
+<!-- VIDEO -->
+<div id="video-screen">
+    <video id="introVideo" playsinline>
+        <source src="intro.mov" type="video/mp4">
+    </video>
 
-<!-- INTRO -->
-<section id="intro" class="hidden">
+    <div id="overlay-text"></div>
+</div>
 
-    <div class="watermark"></div>
+<script>
 
-    <div class="video-container">
+const entry = document.getElementById("entry-screen");
+const videoScreen = document.getElementById("video-screen");
+const video = document.getElementById("introVideo");
+const overlay = document.getElementById("overlay-text");
+const input = document.getElementById("email");
 
-        <video autoplay muted playsinline id="introVideo">
-            <source src="intro.mov" type="video/mp4">
-        </video>
+/* =========================
+   START EXPERIENCE
+========================= */
+function startExperience() {
 
-        <div id="accessOverlay">
-            <button id="accessBtn">ACCESS</button>
-        </div>
+    const email = input.value;
 
-    </div>
+    if (!email.includes("@")) {
 
-</section>
+        input.classList.add("shake");
 
-<!-- PASSWORD -->
-<section id="gate" class="hidden">
+        setTimeout(() => {
+            input.classList.remove("shake");
+        }, 250);
 
-    <div class="watermark"></div>
+        return;
+    }
 
-    <div class="gate-box">
+    entry.style.display = "none";
+    videoScreen.style.display = "block";
 
-        <h2>MEMBERS ACCESS</h2>
+    setTimeout(() => {
+        videoScreen.classList.add("show");
+    }, 50);
 
-        <input type="password" id="password" placeholder="ENTER PASSWORD">
+    video.play();
 
-        <button id="submitPassword">ENTER</button>
+    video.onended = () => {
 
-        <p id="successMessage"></p>
+        video.pause();
 
-        <div class="countdown">
-            <p>NEXT DROP</p>
-            <h3 id="timer"></h3>
-        </div>
+        showTypewriter(
+`<span class="thank-you">Thank you!</span>
 
-    </div>
+You are now standing against the graveyard we live in.
+You will be notified when we drop`
+        );
+    };
+}
 
-</section>
+/* =========================
+   TYPEWRITER + MISFIRE
+========================= */
+function showTypewriter(htmlText) {
 
-<!-- LOCKED -->
-<section id="locked" class="hidden">
+    overlay.style.opacity = 1;
 
-    <div class="watermark"></div>
+    let i = 0;
 
-    <h2>ACCESS RESTRICTED</h2>
-    <p>DROP NOT LIVE</p>
+    function type() {
 
-</section>
+        if (i < htmlText.length) {
 
-<!-- SHOP -->
-<section id="shop" class="hidden">
+            const char = htmlText[i];
 
-    <div class="watermark"></div>
+            const misfire = Math.random() < 0.10;
 
-    <header>
-        <h1>VOID</h1>
+            if (
+                misfire &&
+                char !== " " &&
+                char !== "<" &&
+                char !== ">"
+            ) {
 
-        <div class="menu">
-            <span>MENU</span>
-            <span>CART (0)</span>
-        </div>
-    </header>
+                const wrongChar =
+                    String.fromCharCode(char.charCodeAt(0) + 1);
 
-    <section class="hero-editorial">
-        <img src="editorial.jpg">
-    </section>
+                overlay.innerHTML =
+                    htmlText.substring(0, i) +
+                    wrongChar +
+                    '<span class="cursor">|</span>';
 
-    <section class="products">
+                setTimeout(() => {
 
-        <div class="product large">
-            <video autoplay muted loop playsinline>
-                <source src="product1.mp4" type="video/mp4">
-            </video>
+                    overlay.innerHTML =
+                        htmlText.substring(0, i + 1) +
+                        '<span class="cursor">|</span>';
 
-            <h3>NOIR HOODIE</h3>
-            <p>SOLD OUT</p>
-        </div>
+                }, 70);
 
-        <div class="product">
-            <img src="shirt1.jpg">
-            <h3>OBSIDIAN TEE</h3>
-            <p>€75</p>
-        </div>
+                setTimeout(type, 120);
 
-        <div class="product">
-            <img src="pants1.jpg">
-            <h3>VOID CARGO</h3>
-            <p>€160</p>
-        </div>
+            } else {
 
-        <div class="product large">
-            <img src="jacket1.jpg">
-            <h3>SHADOW SHELL</h3>
-            <p>€220</p>
-        </div>
+                overlay.innerHTML =
+                    htmlText.substring(0, i + 1) +
+                    '<span class="cursor">|</span>';
 
-    </section>
+                setTimeout(type, 35);
+            }
 
-</section>
+            i++;
 
-<audio id="ambientAudio" loop>
-    <source src="ambient.mp3" type="audio/mpeg">
-</audio>
+        } else {
 
-<script src="script.js"></script>
+            overlay.innerHTML = htmlText;
+        }
+    }
+
+    type();
+}
+
+</script>
 
 </body>
 </html>
