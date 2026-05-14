@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VOID</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="noise"></div>
+<div class="custom-cursor"></div>
+
+<!-- PRELOADER -->
+<section id="preloader">
+    <h1>VOID</h1>
+    <p>LOADING ARCHIVE</p>
+</section>
+
+<!-- INTRO -->
+<section id="intro" class="hidden">
+
+    <div class="watermark"></div>
+
+    <div class="video-container">
+
+        <video autoplay muted playsinline id="introVideo">
+            <source src="intro.mov" type="video/mp4">
+        </video>
+
+        <div id="accessOverlay">
+            <button id="accessBtn">ACCESS</button>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PASSWORD -->
+<section id="gate" class="hidden">
+
+    <div class="watermark"></div>
+
+    <div class="gate-box">
+
+        <h2>MEMBERS ACCESS</h2>
+
+        <input type="password" id="password" placeholder="ENTER PASSWORD">
+
+        <button id="submitPassword">ENTER</button>
+
+        <p id="successMessage"></p>
+
+        <div class="countdown">
+            <p>NEXT DROP</p>
+            <h3 id="timer"></h3>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- LOCKED -->
+<section id="locked" class="hidden">
+
+    <div class="watermark"></div>
+
+    <h2>ACCESS RESTRICTED</h2>
+    <p>DROP NOT LIVE</p>
+
+</section>
+
+<!-- SHOP -->
+<section id="shop" class="hidden">
+
+    <div class="watermark"></div>
+
+    <header>
+        <h1>VOID</h1>
+
+        <div class="menu">
+            <span>MENU</span>
+            <span>CART (0)</span>
+        </div>
+    </header>
+
+    <section class="hero-editorial">
+        <img src="editorial.jpg">
+    </section>
+
+    <section class="products">
+
+        <div class="product large">
+            <video autoplay muted loop playsinline>
+                <source src="product1.mp4" type="video/mp4">
+            </video>
+
+            <h3>NOIR HOODIE</h3>
+            <p>SOLD OUT</p>
+        </div>
+
+        <div class="product">
+            <img src="shirt1.jpg">
+            <h3>OBSIDIAN TEE</h3>
+            <p>€75</p>
+        </div>
+
+        <div class="product">
+            <img src="pants1.jpg">
+            <h3>VOID CARGO</h3>
+            <p>€160</p>
+        </div>
+
+        <div class="product large">
+            <img src="jacket1.jpg">
+            <h3>SHADOW SHELL</h3>
+            <p>€220</p>
+        </div>
+
+    </section>
+
+</section>
+
+<audio id="ambientAudio" loop>
+    <source src="ambient.mp3" type="audio/mpeg">
+</audio>
+
+<script src="script.js"></script>
+
+</body>
+</html>
